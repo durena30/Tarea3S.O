@@ -71,7 +71,7 @@ class   ControlVersiones:
                     self.ActualUser=x
             time.sleep(2)
             print("\033[2J\033[1;1f")
-            print("0.Salir\n1.Crear Nuevo Documento\n2.Crear Nueva Carpeta\n3.Ver y Editar Documento\n4.Eliminar Documento\n5.Ver otro Usuario\n\n")
+            print("0.Salir\n1.Crear Nuevo Documento\n2.Ver y Editar Documento\n3.Eliminar Documento\n4.Recuperar Archivo\n5.Crear Nueva Carpeta\n6.Ver Carpetas\n7.Ver otro Usuario\n\n")
             op=(input("Seleccione una opcion: "))
             print("\033[2J\033[1;1f")
             while int(op)!=0:
@@ -81,14 +81,21 @@ class   ControlVersiones:
                     self.ActualUser.CrearArchivo(nombre)
                     time.sleep(3)
                     self.Update(1,self.ActualUser.Nombre,self.ActualUser.NombreCarpeta,self.ActualUser.DatoActual)
-                    break
+                    self.ActualUser.DatoActual=""
+                    # break
                 if int(op)==2:
-                    self.ActualUser.CrearCarpeta()
-                    break
-                if int(op)==3:
                     self.ActualUser.Editar()
-                    break
+                    self.Update(1,self.ActualUser.Nombre,self.ActualUser.NombreCarpeta,self.ActualUser.DatoActual)
+                    self.ActualUser.DatoActual=""
+                    # break
+                if int(op)==3:
+                    self.ActualUser.Eliminar()
+
                 if int(op)==5:
+                    self.ActualUser.CrearCarpeta()
+                    # break
+                
+                if int(op)==7:
                     print("1.Si\t2.No\nDesea ingresar como administrador?\n\n")
                     option=input("Seleccione una opcion: ")
                     print("\033[2J\033[1;1f")
@@ -99,10 +106,16 @@ class   ControlVersiones:
                         if nombre=="administrador" and contra=="administrador":
                             self.ActualUser.Permiso=3
                             self.VerUsuarios(self.ActualUser.Permiso)
+                        else:
+                            print("\033[2J\033[1;1f")
+                            print("\n\n\t***No puede ingresar debido a que la contrasenia o usuario no son correctos***\n\n")
                     else:
                         self.ActualUser.Permiso=2   
                         self.VerUsuarios(self.ActualUser.Permiso)
                     # break
+                print("\033[2J\033[1;1f")
+                print("0.Salir\n1.Crear Nuevo Documento\n2.Ver y Editar Documento\n3.Eliminar Documento\n4.Recuperar Archivo\n5.Crear Nueva Carpeta\n6.Ver Carpetas\n7.Ver otro Usuario\n\n")
+                op=(input("Seleccione una opcion: "))
 
         else:
             print("No Encontrado\n\n\tPor favor proceda a registrarse")
@@ -325,17 +338,8 @@ class   ControlVersiones:
     
 c=ControlVersiones()
 def __main__():
-    # os.mkdir("Usuarios")
     c.getUsuarios()
     c.Principal()
-    # subprocess.run(["notepad", "Usuarios.rg"])
-    # c.Editar("Hola que tal estoy programando en python")
-    # c.Registrar()
-    
-    # c.Carpetas("Dario")
-    # c.AddFile(1,"Kendall","Hola quiubo x2+221\n haoisdjk\nasdhjkahskjh\njhskdjhkeb")
-    # c.RecuperarArchivo('Kendal',1)
-    # c.InicioSesion("Ian","mamapichas")
 
     
 if __name__ =="__main__":
