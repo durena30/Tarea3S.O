@@ -90,11 +90,13 @@ class   ControlVersiones:
                     # break
                 if int(op)==3:
                     self.ActualUser.Eliminar()
-
+                if int(op)==4:
+                    self.ActualUser.RecuperarArchivo(1)
                 if int(op)==5:
                     self.ActualUser.CrearCarpeta()
                     # break
-                
+                if int(op)==6:
+                    self.ActualUser.VerCarpetas()
                 if int(op)==7:
                     print("1.Si\t2.No\nDesea ingresar como administrador?\n\n")
                     option=input("Seleccione una opcion: ")
@@ -118,8 +120,9 @@ class   ControlVersiones:
                 op=(input("Seleccione una opcion: "))
 
         else:
-            print("No Encontrado\n\n\tPor favor proceda a registrarse")
-            self.Registrar()
+            print("\033[2J\033[1;1f")
+            print("\tNo Encontrado\n\tPor favor proceda a registrarse\n")
+            # self.Registrar()
 
     def Autenticar(self,nombre): #Verifica si el usuario existe en la "bd"
         with open('Usuarios.rg') as temp_f:
@@ -234,6 +237,7 @@ class   ControlVersiones:
                 self.Registrar()
             elif op==3:
                 self.VerUsuarios(1)
+            print("\033[2J\033[1;1f")
             print(chr(27)+"[1;30;47m"+"\t\t***BIENVENIDO AL SISTEMA DE CONTROL DE VERSIONES***\n\n\n"+'\033[0;m')
             print(chr(27)+"[1;31m"+"\t0) Salir\n"+chr(27)+"[1;32m"+"\t1) Iniciar Sesion\n"+chr(27)+"[1;33m"+"\t2) Registrarse\n"+'\033[0;m'+'\033[0;m'+"\t3) Ver Usuarios\n"+'\033[0;m')
             print(chr(27)+"[1;30;47m"+"**Si no posee cuenta favor registrarse**\n"+'\033[0;m')

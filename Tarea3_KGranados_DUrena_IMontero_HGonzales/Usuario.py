@@ -2,6 +2,7 @@ import datetime
 import os
 import subprocess
 import shutil
+import time
 class Usuario:
     def __init__(self) -> None:
         pass
@@ -125,7 +126,125 @@ class Usuario:
             if  str(directorio).find(".txt")!=-1:
                 os.remove(directorio)
                 print("Se ha removido el siguiente archivo: "+directorio)
-        
 
+    def RecuperarArchivo(self,tipo):#obtiene la ultima version guardada
+        cont=0
+        finish=False
+        if tipo==1:
+            tipoCarp="Temp"
+        if tipo==2:
+            tipoCarp="Perm"
+        path="Usuarios/"+self.Nombre+"/"+tipoCarp
+
+        Ruta=list()
+        Ruta.append(path)
+        while(finish!=True):
+            print("\033[2J\033[1;1f") 
+            lista=os.listdir(path)
+            if path=="Usuarios/"+self.Nombre+"/"+tipoCarp or path=="Usuarios/"+self.Nombre+"/"+tipoCarp+"/" :
+                print("0.Salir")
+            else:
+                print("0.Atras")
+            for x in lista:
+                print(str(cont+1)+"."+x)
+                cont+=1
+            opcion= int(input("Digite el numero de su eleccion: "))
+            if opcion==0:
+                if path=="Usuarios/"+self.Nombre+"/"+tipoCarp or path=="Usuarios/"+self.Nombre+"/"+tipoCarp+"/":
+                    finish=True
+                    break
+                pathaux=""
+                Ruta.pop(len(Ruta)-1)
+                for x in Ruta:
+                    pathaux+=x+"/"
+                path=pathaux
+                print(path)
+                
+                time.sleep(2)
+                lista.clear()
+                cont=0
+            else:
+                Ruta.append(lista[opcion-1])
+                path+="/"+lista[opcion-1]
+                lista.clear()
+                cont=0
+                
+                if path.find(".txt")!=-1:
+                    path1="Usuarios/"+self.Nombre+"/Documentos/"
+                    OldFileName=Ruta[2]
+                    NewFileName=Ruta[1]
+                    if not os.path.isfile(path1+NewFileName+".txt"):
+                        shutil.move(path,path1)
+                        os.rename(path1+OldFileName,path1+NewFileName+".txt")
+                    if os.path.isfile(path1+NewFileName+".txt"):
+                        aactual=""
+                        with open(path) as temp_f:
+                            archivo = temp_f.readlines()
+                            for line in archivo:
+                                aactual+=line
+                        reg= open(path1+NewFileName+".txt","w")
+                        reg.write(aactual)
+                        reg.close()
+                        os.remove(path)
+                        path="Usuarios/"+self.Nombre+"/"+tipoCarp
+
+                    if tipo==1:
+                        direccion="Usuarios/"+self.Nombre+"/Archtemp.txt"
+                    if tipo==2:
+                        direccion="Usuarios/"+self.Nombre+"/Archperm.txt"
+                    registros= list()
+                    with open(direccion) as temp_f:
+                        archivo = temp_f.readlines()
+                        for line in archivo:
+                            registros.append(line)
+                    for i in range(len(registros)-1):
+                        if registros[i]==OldFileName+"/"+NewFileName:
+                            registros.pop(i)
+
+                    arch=open(direccion,"w")                      
+                    for x in registros:
+                        arch.write(x)
+                    arch.close()
+
+                    
+
+    def VerCarpetas(self):
+        cont=0
+        finish=False
+        path="Usuarios/"+self.Nombre
+        Ruta=list()
+        Ruta.append(path)
+        while(finish!=True):
+            print("\033[2J\033[1;1f") 
+            lista=os.listdir(path)
+            if path=="Usuarios/"+self.Nombre:
+                print("0.Salir")
+            else:
+                print("0.Atras")
+            for x in lista:
+                print(str(cont+1)+"."+x)
+                cont+=1
+            
+            opcion= int(input("Digite el numero de su eleccion: "))
+            
+            if opcion==0 and path =="Usuarios/"+self.Nombre:# si el path se devuelve hasta el inicio o esta en el inicio se sale del Ver Carpetas
+                finish=True
+                break
+            if opcion==0:#El path se devuelve a la direccion anterior
+                path=""
+                Ruta.pop(len(Ruta)-1)
+                for x in Ruta:
+                    path+=x+"/"
+                print(path)
+                lista.clear()
+                cont=0
+            else:
+                Ruta.append(lista[opcion-1])
+                path+="/"+lista[opcion-1]
+                lista.clear()
+                cont=0
+                if path.find(".txt")!=-1:
+                    subprocess.run(["notepad.exe",path])
+                    path="Usuarios/"+self.Nombre
             
     
