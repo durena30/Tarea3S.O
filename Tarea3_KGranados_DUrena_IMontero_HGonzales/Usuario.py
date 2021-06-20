@@ -44,7 +44,7 @@ class Usuario:
         doc=list()
         txt=list()
         cont=0
-        directorio="Usuarios/"+self.Nombre
+        directorio="Usuarios/"+self.Nombre+"/Documentos"
         print("\t***Archivos***\n\n")
         with os.scandir(directorio) as ficheros:
             for fichero in ficheros:
@@ -217,7 +217,7 @@ class Usuario:
         while(finish!=True):
             print("\033[2J\033[1;1f") 
             lista=os.listdir(path)
-            if path=="Usuarios/"+self.Nombre:
+            if path=="Usuarios/"+self.Nombre or path=="Usuarios/"+self.Nombre+"/":
                 print("0.Salir")
             else:
                 print("0.Atras")
@@ -227,7 +227,7 @@ class Usuario:
             
             opcion= int(input("Digite el numero de su eleccion: "))
             
-            if opcion==0 and path =="Usuarios/"+self.Nombre:# si el path se devuelve hasta el inicio o esta en el inicio se sale del Ver Carpetas
+            if opcion==0 and (path =="Usuarios/"+self.Nombre or path =="Usuarios/"+self.Nombre+"/"):# si el path se devuelve hasta el inicio o esta en el inicio se sale del Ver Carpetas
                 finish=True
                 break
             if opcion==0:#El path se devuelve a la direccion anterior
@@ -247,4 +247,29 @@ class Usuario:
                     subprocess.run(["notepad.exe",path])
                     path="Usuarios/"+self.Nombre
             
-    
+    def Commit(self, op): #Transfiere la ultima actualizacion de los archivos temporales a los Permanentes
+        lista= list()
+        concat='Usuarios/'+self.Nombre+'/Archtemp.txt'
+        concat2='Usuarios/'+self.Nombre+'/Archperm.txt'
+        path="Usuarios/"+self.Nombre+"/Temp/"
+        path1="Usuarios/"+self.Nombre+"/Perm/"
+        lista=os.listdir(path)
+        path+=lista[op]
+        print(path)
+
+        Carpeta=lista[op]
+        lista.clear()
+        lista=os.listdir(path)
+        print(lista)
+        path+="/"
+        NombreArchivo=lista.pop(len(lista)-1)
+        print(NombreArchivo)
+        shutil.move(path+NombreArchivo,path1+Carpeta+"/"+NombreArchivo)
+
+        registro= open(concat, 'w')
+        for x in lista:
+            registro.write(x)
+        registro.close()
+        registro= open(concat2, 'a')
+        registro.write(Carpeta+"/"+NombreArchivo)
+        registro.close()        

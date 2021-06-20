@@ -81,17 +81,36 @@ class   ControlVersiones:
                     self.ActualUser.CrearArchivo(nombre)
                     time.sleep(3)
                     self.Update(1,self.ActualUser.Nombre,self.ActualUser.NombreCarpeta,self.ActualUser.DatoActual)
+                    print("Desea realizar un Commit \n1.Si\n2.No")
+                    opt=int(input("Seleccione una opcion: "))
+                    if opt==1:
+                        path="Usuarios/"+self.ActualUser.Nombre+"/Temp/"+self.ActualUser.NombreCarpeta+"/"
+                        lista=os.listdir(path)
+                        print(str(len(lista)-1))
+                        self.ActualUser.Commit(len(lista)-1)
+                        lista.clear()
+                        print("\n\n\t***Commit Realizado***\n\n")
                     self.ActualUser.DatoActual=""
                     # break
                 if int(op)==2:
                     self.ActualUser.Editar()
                     self.Update(1,self.ActualUser.Nombre,self.ActualUser.NombreCarpeta,self.ActualUser.DatoActual)
+                    print("Desea realizar un Commit \n1.Si\n2.No")
+                    opt=int(input("Seleccione una opcion: "))
+                    
+                    if opt==1:
+                        path="Usuarios/"+self.ActualUser.Nombre+"/Temp/"+self.ActualUser.NombreCarpeta+"/"
+                        lista=os.listdir(path)
+                        print(str(len(lista)-1))
+                        self.ActualUser.Commit(len(lista)-1)
+                        lista.clear()
+                        print("\n\n\t***Commit Realizado***\n\n")
                     self.ActualUser.DatoActual=""
                     # break
                 if int(op)==3:
                     self.ActualUser.Eliminar()
                 if int(op)==4:
-                    self.ActualUser.RecuperarArchivo(1)
+                    self.ActualUser.RecuperarArchivo(2)
                 if int(op)==5:
                     self.ActualUser.CrearCarpeta()
                     # break
@@ -114,7 +133,7 @@ class   ControlVersiones:
                     else:
                         self.ActualUser.Permiso=2   
                         self.VerUsuarios(self.ActualUser.Permiso)
-                    # break
+                    # break   
                 print("\033[2J\033[1;1f")
                 print("0.Salir\n1.Crear Nuevo Documento\n2.Ver y Editar Documento\n3.Eliminar Documento\n4.Recuperar Archivo\n5.Crear Nueva Carpeta\n6.Ver Carpetas\n7.Ver otro Usuario\n\n")
                 op=(input("Seleccione una opcion: "))
@@ -158,66 +177,7 @@ class   ControlVersiones:
         registro.write(dato)
         registro.close()
 
-    def RecuperarArchivo(self,nombre,tipo):#obtiene la ultima version guardada
-        lista= list()
-        if tipo==1:
-            concat='Usuarios/'+nombre+'/Archtemp.txt'
-        if tipo==2:
-            concat='Usuarios/'+nombre+'/Archperm.txt'
-        with open(concat) as temp_f:
-            archivo = temp_f.readlines()
-            for line in archivo:
-                lista.append(line)
-
-        nombrearch=lista.pop(len(lista)-1)
-        nombrearch=nombrearch[0:len(nombrearch)-1]
-        print(lista)
-        print(nombrearch)
-        if tipo==1:
-            filename= 'Usuarios/'+nombre+"/Temp/"+nombrearch
-        if tipo==2:
-            filename= 'Usuarios/'+nombre+"/Perm/"+nombrearch
-        self.ObtenerArch(filename)
-        os.remove(filename)
-        registro= open(concat, 'w')
-        for x in lista:
-            registro.write(x)
-        registro.close()
-
-    def Commit(self, nombre): #Transfiere la ultima actualizacion de los archivos temporales a los Permanentes
-        try:
-            lista= list()
-            concat='Usuarios/'+nombre+'/Archtemp.txt'
-            concat2='Usuarios/'+nombre+'/Archperm.txt'
-            with open(concat) as temp_f:
-                archivo = temp_f.readlines()
-                for line in archivo:
-                    lista.append(line)
-            nombrearch=lista.pop(len(lista)-1)
-            nombrearch=nombrearch[0:len(nombrearch)-1]
-
-            print(lista)
-            print(nombrearch)
-            filedir= 'Usuarios/'+nombre+"/Temp/"+nombrearch
-            filedir2='Usuarios/'+nombre+"/Perm/"+nombrearch
-            
-            self.ObtenerArch(filedir)
-            
-            shutil.move(filedir,filedir2)
-            self.grabarArchivo(concat2,nombrearch+"\n")
-            # os.remove(concat)
-            registro= open(concat, 'w')
-            for x in lista:
-                registro.write(x)
-            registro.close()
-        except:
-            print("\n\nNo se encuentra ningun Backup\n\n")
-
-    def ObtenerArch(self,direccion):
-
-        registro= open(direccion, 'r')
-        print(registro.read())
-        registro.close()
+   
 
     def Principal(self):
         
@@ -333,11 +293,6 @@ class   ControlVersiones:
             for line in archivo:
                 user=Usuario(line[0:line.index(" ")],line[line.index(" "):line.index("\n")],1)
                 self.userslist.append(user)
-
-    def Carpetas(self, nombre):# Crea Una carpeta si el usuario asi lo desea
-        for x in self.userslist:
-            if x.Nombre==nombre:
-                x.CrearCarpeta()
 
     
 c=ControlVersiones()
