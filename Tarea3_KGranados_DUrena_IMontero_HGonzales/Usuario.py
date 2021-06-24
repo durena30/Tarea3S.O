@@ -160,7 +160,7 @@ class Usuario:
                 path=pathaux
                 print(path)
                 
-                # time.sleep(2)
+                time.sleep(2)
                 lista.clear()
                 cont=0
             else:

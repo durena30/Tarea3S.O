@@ -130,7 +130,6 @@ class   ControlVersiones:
                         else:
                             print("\033[2J\033[1;1f")
                             print("\n\n\t***No puede ingresar debido a que la contrasenia o usuario no son correctos***\n\n")
-                            time.sleep(3)
                     else:
                         self.ActualUser.Permiso=2   
                         self.VerUsuarios(self.ActualUser.Permiso)
@@ -210,7 +209,6 @@ class   ControlVersiones:
             if str(directorio).find(".txt") !=-1:
                 os.remove(directorio)
                 print("Se ha removido el siguiente archivo: "+directorio)
-                time.sleep(3)
             else:
                 contador=0
                 print("\033[2J\033[1;1f") 
@@ -227,7 +225,7 @@ class   ControlVersiones:
                    print("Se ha removido el siguiente archivo: "+directorio)
         else:
             print("No posee los permisos para poder eliminar dicho archivo\n\n")
-            time.sleep(3)          
+                       
             
 
     def VerUsuarios(self,permiso):
@@ -266,7 +264,6 @@ class   ControlVersiones:
             if permiso == 1:
                 print("\033[2J\033[1;1f")  
                 print("\n\nNo cuenta con los permisos necesarios para poder observar los documentos\nPorfavor Registrese o Inicie sesion para poder continuar\n\n")
-                time.sleep(3)
             else:
                 subprocess.run(["notepad.exe",directorio])
         else:
@@ -284,7 +281,6 @@ class   ControlVersiones:
                 if permiso == 1:
                     print("\033[2J\033[1;1f")  
                     print("\n\nNo cuenta con los permisos necesarios para poder observar los documentos\nPorfavor Registrese o Inicie sesion para poder continuar\n\n")
-                    time.sleep(3)
                 else:
                     subprocess.run(["notepad.exe",directorio])
 
