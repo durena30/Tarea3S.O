@@ -158,9 +158,9 @@ class Usuario:
                 for x in Ruta:
                     pathaux+=x+"/"
                 path=pathaux
-                print(path)
+                # print(path)
                 
-                time.sleep(2)
+                # time.sleep(2)
                 lista.clear()
                 cont=0
             else:
